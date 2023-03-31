@@ -4,7 +4,14 @@ function FormatResult(rows){
     if (rows == null) return 'No matching providers were found.';
     if (!rows.length) return 'No matching providers were found.';
 	
-    var output = '';
+    var output = `<table class="table table-bordered table-striped" id="shortresultsTable">
+        <thead><tr>
+            <th>NPI</th>
+            <th>Name</th>
+            <th>Street</th>
+            <th>City</th>
+        </tr></thead>
+        <tbody>`;
     for (var i = 0; i < rows.length; i++) {
         output += "<TR>";
         for(var j in rows[i]) 
@@ -12,6 +19,7 @@ function FormatResult(rows){
                 output += ("<TD>" + rows[i][j] + "</TD>");
         output += "</TR>";
     }
+    output += "</tbody></table>";
     return output;
 }
 
@@ -34,7 +42,7 @@ function ServerReply (code, event, result){
         messages: [{
             contentType: 'PlainText',
             //content: 'original event: ' + JSON.stringify(event)
-            content:    'results: ' + JSON.stringify(result)
+            content: JSON.stringify(result)
         }],
         sessionId: event.sessionId,
         requestAttributes: event.requestAttributes
